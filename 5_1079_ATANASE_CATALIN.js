@@ -1,3 +1,11 @@
+const gameContainer = document.querySelector(".gameContainer");
+const entryContainer = document.querySelector(".entry-container");
+const startGameBtn = document.querySelector("#startGameBtn");
+const playerName = document.querySelector("#playerName");
+const scoresContainer = document.querySelector(".scores");
+
+let scores = JSON.parse(localStorage.getItem("scores"));
+
 let canvas, canvasContext, canvasWidth, canvasHeight;
 let asteroids = [];
 let asteroidYSpeed = 0,
@@ -29,7 +37,7 @@ let score = 0;
 let isMovingRocket;
 
 let isDone;
-const frames = 1000 / 60;
+const FRAMES = 1000 / 60;
 
 const drawAsteroid = (asteroid) => {
   canvasContext.beginPath();
@@ -86,7 +94,7 @@ const checkRocketColision = (asteroid) => {
       asteroids = asteroids.filter((a) => a.id !== asteroid.id);
     }
     score++;
-    if(score % 5 === 0) {
+    if (score % 5 === 0) {
       shipHP++;
     }
     clearisMovingRocket();
@@ -194,6 +202,10 @@ const checkEndGame = () => {
     canvasContext.font = "bold 40pt Arial";
     canvasContext.textAlign = "middle";
     canvasContext.fillText(`Game over! Scor: ${score}`, 150, 300);
+    localStorage.setItem(
+      "scores",
+      JSON.stringify([...scores, { name: playerName.value, score }])
+    );
     return true;
   }
   return false;
@@ -267,7 +279,7 @@ const moveShip = (e) => {
     if (!isMovingRocket) {
       isMovingRocket = setInterval(() => {
         rocketY -= rocketSpeed;
-      }, frames);
+      }, FRAMES);
     }
   }
 
@@ -281,6 +293,16 @@ const rocketAsteroidCollision = () => {
 };
 
 const app = () => {
+  if (scores) {
+    scores.sort((a, b) => b.score - a.score)
+    scores.forEach((value) => {
+      const p = document.createElement("p");
+      p.textContent = `${value.name} - ${value.score}`;
+      scoresContainer.appendChild(p);
+    });
+  } else {
+    scores = []
+  }
   canvas = document.querySelector("#gameCanvas");
   canvasWidth = canvas.width;
   canvasHeight = canvas.height;
@@ -309,23 +331,16 @@ const app = () => {
     }
   }
   drawCanvas();
-  setInterval(onFrameMove, frames);
+  setInterval(onFrameMove, FRAMES);
   document.addEventListener("keydown", moveShip);
-  setInterval(rocketAsteroidCollision, frames);
+  setInterval(rocketAsteroidCollision, FRAMES);
 };
 
 document.addEventListener("DOMContentLoaded", app);
 
-const gameContainer = document.querySelector('.gameContainer')
-const entryContainer = document.querySelector('.entry-container')
-const startGameBtn = document.querySelector('#startGameBtn')
-const playerName = document.querySelector('#playerName')
-
-startGameBtn.addEventListener('click', () => {
-  gameContainer.style.display = "flex";
-  entryContainer.style.display = "none";
-})
-
-gameContainer.style.display = "none"
-
-
+startGameBtn.addEventListener("click", () => {
+  if (playerName.value.trim() != "") {
+    gameContainer.style.display = "flex";
+    entryContainer.style.display = "none";
+  }
+});
