@@ -315,3 +315,17 @@ const app = () => {
 };
 
 document.addEventListener("DOMContentLoaded", app);
+
+const gameContainer = document.querySelector('.gameContainer')
+const entryContainer = document.querySelector('.entry-container')
+const startGameBtn = document.querySelector('#startGameBtn')
+const playerName = document.querySelector('#playerName')
+
+startGameBtn.addEventListener('click', () => {
+  gameContainer.style.display = "flex";
+  entryContainer.style.display = "none";
+})
+
+gameContainer.style.display = "none"
+
+
