@@ -211,25 +211,18 @@ const checkNeedToMoveRocket = () => {
 const drawCanvas = () => {
   canvasContext.clearRect(0, 0, canvasWidth, canvasHeight);
 
-  //desenare asteroizi
   asteroids.forEach(ASTEROID_FUNCTIONS.drawAsteroid);
 
-  //desenare nava in functie de dimensiunile canvas-ului
   drawShip();
 
-  //desenare racheta
   drawRocket();
 
-  //desenare numar vieti
   drawShipHp();
 
-  //desenare scor
   drawScore();
 
-  //Sfarsit joc!!!!
   isDone = checkEndGame();
 
-  //programare executie
   if (!isDone) {
     requestAnimationFrame(drawCanvas);
   }
@@ -238,7 +231,7 @@ const drawCanvas = () => {
 const onFrameMove = () => {
   asteroids.forEach(ASTEROID_FUNCTIONS.moveAsteroid);
 };
-//Miscare nava
+
 const moveShip = (e) => {
   if (e.keyCode === 37 && shipLeftX >= 0) {
     shipRightX -= shipSpeed;
