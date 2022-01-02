@@ -140,8 +140,8 @@ const moveAsteroid = (asteroid) => {
 };
 
 const setAsteroidSpeed = (asteroid) => {
-  asteroid.xSpeed = asteroidXSpeed * (ASTEROID_MAX_HP - asteroid.hp + 1);
-  asteroid.ySpeed = asteroidYSpeed * (ASTEROID_MAX_HP - asteroid.hp + 1);
+  asteroid.xSpeed = Math.min(5, asteroidXSpeed * (ASTEROID_MAX_HP - asteroid.hp + 1));
+  asteroid.ySpeed = Math.min(5, asteroidYSpeed * (ASTEROID_MAX_HP - asteroid.hp + 1));
 };
 
 const ASTEROID_FUNCTIONS = {
@@ -320,6 +320,7 @@ const app = () => {
   canvasContext = canvas.getContext("2d");
 
   const counter = 8;
+  let hp;
   asteroidWidth = canvasWidth / counter;
   asteroidHeight = canvasHeight / counter;
   asteroidRadius = canvasHeight / 40;
@@ -329,12 +330,13 @@ const app = () => {
   let k = 1;
   for (let i = 0; i < counter; i++) {
     if (k <= ASTEROID_MAX_HP) {
+      hp = Math.ceil(Math.random() * ASTEROID_MAX_HP)
       asteroids.push({
         id: i,
         x: k * asteroidWidth + Math.random() * 150,
         y: k * asteroidHeight + Math.random() * 20,
-        radius: asteroidRadius * k,
-        hp: k,
+        radius: asteroidRadius * hp,
+        hp
       });
       k++;
     } else {
