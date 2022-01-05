@@ -140,8 +140,8 @@ const moveAsteroid = (asteroid) => {
 };
 
 const setAsteroidSpeed = (asteroid) => {
-  asteroid.xSpeed = Math.min(5, asteroidXSpeed * (ASTEROID_MAX_HP - asteroid.hp + 1));
-  asteroid.ySpeed = Math.min(5, asteroidYSpeed * (ASTEROID_MAX_HP - asteroid.hp + 1));
+  asteroid.xSpeed = Math.min(1.5, asteroidXSpeed * (ASTEROID_MAX_HP - asteroid.hp + 1));
+  asteroid.ySpeed = Math.min(1.5, asteroidYSpeed * (ASTEROID_MAX_HP - asteroid.hp + 1));
 };
 
 const ASTEROID_FUNCTIONS = {
@@ -199,6 +199,8 @@ const checkEndGame = () => {
       "scores",
       JSON.stringify([...scores, { name: playerName.value, score }])
     );
+    asteroids = []
+    shipHP = 0;
     return true;
   }
   return false;
