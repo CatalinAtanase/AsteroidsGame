@@ -195,9 +195,11 @@ const checkEndGame = () => {
     canvasContext.font = "bold 40pt Arial";
     canvasContext.textAlign = "middle";
     canvasContext.fillText(`Game over! Scor: ${score}`, 150, 300);
+    scores = [...scores, { name: playerName.value, score }]
+    scores = scores.sort((a, b) => b.score - a.score).slice(0, scores.length > 5 ? 5 : scores.length)
     localStorage.setItem(
       "scores",
-      JSON.stringify([...scores, { name: playerName.value, score }])
+      JSON.stringify(scores)
     );
     asteroids = []
     shipHP = 0;
